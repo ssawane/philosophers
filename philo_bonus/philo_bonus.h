@@ -6,7 +6,7 @@
 /*   By: ssawane <ssawane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:12:38 by ssawane           #+#    #+#             */
-/*   Updated: 2022/04/09 15:00:22 by ssawane          ###   ########.fr       */
+/*   Updated: 2022/04/12 14:08:48 by ssawane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 
 typedef struct s_philo {
 	int				id;
-	int				eat_count;
 	long			time_last_eat;
 }	t_philo;
 
@@ -39,13 +38,16 @@ typedef struct s_table {
 	int				free;
 	sem_t			*fork;
 	sem_t			*print;
+	sem_t			*end;
 	pthread_t		death;
+	pthread_t		last;
 	t_philo			*philo;
 }	t_table;
 
 int		ft_atoi(const char *nptr);
-int		initialization(t_table *table, char **argv);
-int		main_processing(t_table *table, pthread_t *thread);
+int		initialization(t_table *table, int argc, char **argv);
+void	child_proccessing(t_table *table);
 void	*death_checker(void *data);
+long	get_time(void);
 
 #endif

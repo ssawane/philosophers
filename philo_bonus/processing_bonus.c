@@ -6,7 +6,7 @@
 /*   By: ssawane <ssawane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 16:05:23 by ssawane           #+#    #+#             */
-/*   Updated: 2022/04/10 13:07:38 by ssawane          ###   ########.fr       */
+/*   Updated: 2022/04/12 14:47:07 by ssawane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,22 +36,32 @@ void	ft_usleep(int time)
 
 void	*death_checker(void *data)
 {
-	int		i;
 	t_table	*table;
+	int		i;
 
 	table = (t_table *)data;
+	i = -1;
 	while (1)
 	{
-		if (table->philo[i].time_to_die < get_time() - table->philo[table->ind].time_last_eat)
+		if (table->time_to_die < get_time() - table->philo[table->ind].time_last_eat)
 			{
 				sem_wait(table->print);
 				printf("%ld %d died\n", get_time() - table->start_time, table->philo[table->ind].id);
-				sem_post(table->print);
-				pthread_detach(table->death);
-					return ((void *)0);
+				//sem_post(table->print);
+				while(++i < table->all_philo)
+					sem_post(table->end);
 			}
-		}
 	}
+	return ((void *)0);
+}
+
+void	*last_thread(void *data)
+{
+	t_table *table;
+
+	table = (t_table *)data;
+	sem_wait(table->end);
+	exit (0);
 }
 
 void	ft_next_step(t_table *table, int i)
@@ -88,27 +98,31 @@ void	child_proccessing(t_table *table)
 	int		j;
 	
 	i = table->ind;
-	j = -1;
-	table->philo[i].time_last_eat = table->start_time;
-	
-	while ((++j < table->eat_count && flag == 1) || flag == 0)
+	j = 0;
+	table->philo[table->ind].time_last_eat = table->start_time;
+	pthread_create(&table->death, NULL, death_checker, (void *)table);
+	pthread_create(&table->last, NULL, last_thread, (void *)table);
+	while ((j < table->eat_count && table->flag == 1) || table->flag == 0)
 	{
-		getting_forks(table, i);
+		getting_forks(table, table->ind);
+		j++;
 		if (table->flag == 1 && j == table->eat_count)
-			return ((void *)0);
+		{
+			pthread_detach(table->death);
+			pthread_detach(table->death);
+			exit(0);
+		}
 		ft_next_step(table, i);
 	}
-	return ((void *)0);
 }
 
-int	initialization(t_table *table, char **argv)
+int	initialization(t_table *table, int argc, char **argv)
 {
 	table->time_to_die = ft_atoi(argv[2]);
 	table->time_to_eat = ft_atoi(argv[3]);
 	table->time_to_sleep = ft_atoi(argv[4]);
 	table->flag = 0;	
 	table->all_philo = ft_atoi(argv[1]);
-	table->death_check = 0;
 	table->free = 0; //free
 	table->philo = malloc(sizeof(t_philo) * table->all_philo);
 	table->pid = malloc(sizeof(int) * table->all_philo);
