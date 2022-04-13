@@ -1,1 +1,3 @@
-*.DS_Store
+.DS_Store
+philo/.DS_Store
+philo_bonus/.DS_Store
