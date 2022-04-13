@@ -1,34 +1,41 @@
-NAME	=	philo
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: ssawane <ssawane@student.42.fr>            +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/04/13 15:02:42 by ssawane           #+#    #+#              #
+#    Updated: 2022/04/13 16:02:18 by ssawane          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-SRCS	=	main.c	philo_utils.c	processing.c\
+NAME		=	philo
 			
-SRCS_B	=	\
+SRCS		=	main.c	philo_utils.c	processing.c\
 
-HEADER	=	philo.h
-OBJ		=	$(patsubst %.c, %.o, $(SRCS))
-OBJ_B	=	$(SRCS_B:%.c=%.o)
+HEADER		=	philo.h
 
-CC		=	gcc
-CFLAGS	=	-Wall -Wextra -Werror -I$(HEADER)
+OBJ			=	$(SRCS:%.c=%.o)
 
-.PHONY	:	all clean fclean re bonus
+CC			=	gcc
 
-all		:	$(NAME)
+CFLAGS		=	-Wall -Wextra -Werror
 
-$(NAME)	:	$(OBJ) $(HEADER)
-	$(CC) $(CFLAGS) $(SRCS) -o $(NAME)
+.PHONY		:	all clean fclean re
 
-%.o		:	%.c $(HEADER)
-	$(CC) $(CFLAGS) -c $< -o $@
+all			:	$(NAME)
 
-bonus	:
-	@make OBJ="$(OBJ_B)" SRCS="$(SRCS_B)" all
+$(NAME)		:	$(OBJ) $(HEADER)
+				$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
 
+%.o			:		%.c $(HEADER)
+					$(CC) $(CFLAGS) -c $< -o $@
 
-clean	:
-	@rm -f $(OBJ) $(OBJ_B)
+clean		:
+				@rm -f $(OBJ) $(OBJ_B)
 
-fclean	:	clean
-	@$(RM) $(NAME)
+fclean		:	clean
+				@$(RM) $(NAME) $(NAME_B)
 
-re		:	fclean all
+re			:	fclean all

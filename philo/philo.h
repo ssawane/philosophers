@@ -6,7 +6,7 @@
 /*   By: ssawane <ssawane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:12:38 by ssawane           #+#    #+#             */
-/*   Updated: 2022/04/05 17:19:01 by ssawane          ###   ########.fr       */
+/*   Updated: 2022/04/13 18:17:40 by ssawane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ typedef struct s_table {
 }	t_table;
 
 int		ft_atoi(const char *nptr);
-int		initialization(t_table *table, char **argv);
 int		main_processing(t_table *table, pthread_t *thread);
 void	*death_checker(void *data);
+long	get_time(void);
 
 #endif
