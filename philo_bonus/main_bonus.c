@@ -6,7 +6,7 @@
 /*   By: ssawane <ssawane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:10:29 by ssawane           #+#    #+#             */
-/*   Updated: 2022/04/13 19:13:01 by ssawane          ###   ########.fr       */
+/*   Updated: 2022/04/14 12:12:51 by ssawane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	sem_initialization(t_table *table, char **argv)
 	sem_unlink("print");
 	sem_unlink("end");
 	sem_unlink("kill");
-	table->fork = sem_open("fork", O_CREAT, 0644, argv[1]);
+	table->fork = sem_open("fork", O_CREAT, 0644, ft_atoi(argv[1]));
 	table->print = sem_open("print", O_CREAT, 0644, 1);
 	table->end = sem_open("end", O_CREAT, 0644, 0);
 	table->kill = sem_open("kill", O_CREAT, 0644, 0);

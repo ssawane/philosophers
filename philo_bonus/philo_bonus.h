@@ -6,7 +6,7 @@
 /*   By: ssawane <ssawane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 14:12:38 by ssawane           #+#    #+#             */
-/*   Updated: 2022/04/13 19:03:26 by ssawane          ###   ########.fr       */
+/*   Updated: 2022/04/14 11:44:16 by ssawane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ typedef struct s_philo {
 typedef struct s_table {
 	int				*pid;
 	int				all_philo;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
+	long			time_to_die;
+	long			time_to_eat;
+	long			time_to_sleep;
 	int				flag;
 	int				ind;
 	long			start_time;
@@ -50,7 +50,7 @@ int		initialization(t_table *table, int argc, char **argv);
 void	child_proccessing(t_table *table);
 void	*death_checker(void *data);
 long	get_time(void);
-void	ft_usleep(int time);
+void	ft_usleep(long time);
 void	*last_thread(void *data);
 
 #endif

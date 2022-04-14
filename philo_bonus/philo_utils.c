@@ -6,7 +6,7 @@
 /*   By: ssawane <ssawane@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/24 23:45:59 by ssawane           #+#    #+#             */
-/*   Updated: 2022/04/13 19:14:09 by ssawane          ###   ########.fr       */
+/*   Updated: 2022/04/14 12:16:35 by ssawane          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,18 +47,13 @@ long	get_time(void)
 	return ((long)current_time.tv_sec * 1000 + current_time.tv_usec / 1000);
 }
 
-void	ft_usleep(int time)
+void	ft_usleep(long time)
 {
-	long	end;
-	long	start;
+	long	t;
 
-	start = get_time();
-	end = start + time;
-	while (start < end)
-	{
-		usleep(500);
-		start = get_time();
-	}
+	t = get_time();
+	while (get_time() - t < time)
+		usleep(100);
 }
 
 void	*last_thread(void *data)
